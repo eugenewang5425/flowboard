@@ -1,0 +1,26 @@
+{
+  "name": "codex-flowboard",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "A Windows-first, local task board with official Codex app-server integration.",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "bin": {
+    "flowctl": "./cli/flowctl.mjs"
+  },
+  "scripts": {
+    "dev": "node --watch server/index.mjs --dev",
+    "start": "node server/index.mjs",
+    "test": "node --test",
+    "check:powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-powershell.ps1",
+    "check": "node --check server/index.mjs && node --check server/database.mjs && node --check server/http-security.mjs && node --check server/prompt.mjs && node --check server/agent-registry.mjs && node --check server/codex-app-server.mjs && node --check web/ui-utils.js && node --check web/app.js && npm run check:powershell && node --test",
+    "flowctl": "node cli/flowctl.mjs",
+    "build:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-windows-portable.ps1",
+    "verify:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-windows-package.ps1"
+  },
+  "dependencies": {
+    "@openai/codex": "0.147.0"
+  }
+}

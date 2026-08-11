@@ -1,0 +1,13 @@
+Third-party components bundled with Flowboard
+==============================================
+
+Node.js 24.x
+License: MIT and bundled third-party notices
+License text: runtime\NODE-LICENSE.txt
+Project: https://nodejs.org/
+
+OpenAI Codex CLI 0.147.0
+License: Apache-2.0
+Project: https://github.com/openai/codex
+
+This notice does not grant a license to Flowboard itself.

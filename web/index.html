@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0d16" />
+    <meta name="description" content="Windows 优先的本地多 Agent 任务工作流" />
+    <title>Flowboard · Agent 工作台</title>
+    <link rel="stylesheet" href="/styles.css?v=0.2.0" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div><strong>Flowboard</strong><small>Agent workflow</small></div>
+        </div>
+        <div class="sidebar-section-label">工作空间</div>
+        <nav id="project-list" class="project-list" aria-label="项目列表"></nav>
+        <button id="add-project-button" class="sidebar-action" type="button"><span>＋</span> 新建项目</button>
+
+        <div class="sidebar-bottom">
+          <div id="agent-panel" class="agent-panel is-offline">
+            <div class="agent-orb" aria-hidden="true"></div>
+            <div><strong>Codex</strong><span id="agent-status-text">尚未连接</span></div>
+            <button id="connect-agent-button" type="button">连接</button>
+          </div>
+          <div class="local-note"><span></span>数据与附件仅保存在本机</div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="project-heading">
+            <div class="eyebrow">PROJECT WORKFLOW</div>
+            <h1 id="project-title">选择一个项目</h1>
+            <p id="project-path">创建项目后即可开始</p>
+          </div>
+          <div class="topbar-actions">
+            <label class="search-box"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="搜索任务…" autocomplete="off" /></label>
+            <button id="refresh-button" class="icon-button" type="button" title="刷新" aria-label="刷新">↻</button>
+            <button id="add-issue-button" class="primary-button" type="button"><span>＋</span> 新建任务</button>
+          </div>
+        </header>
+
+        <section id="toolbar" class="toolbar" hidden>
+          <div class="segmented" aria-label="视图模式">
+            <button type="button" data-view="board" class="is-active">看板</button>
+            <button type="button" data-view="list">列表</button>
+          </div>
+          <label>状态<select id="status-filter"><option value="">全部状态</option></select></label>
+          <label>优先级<select id="priority-filter"><option value="">全部优先级</option></select></label>
+          <label class="check-field"><input id="archived-filter" type="checkbox" /> 只看归档</label>
+          <button id="automation-button" class="secondary-button toolbar-action" type="button">自动化候选</button>
+          <span id="result-count" class="result-count"></span>
+        </section>
+        <section id="summary-strip" class="summary-strip" aria-label="任务摘要"></section>
+        <section id="board" class="board" aria-label="任务看板"></section>
+        <section id="list-view" class="list-view" aria-label="任务列表" hidden></section>
+
+        <section id="empty-state" class="empty-state" hidden>
+          <div class="empty-illustration"><span></span><span></span><span></span></div>
+          <h2>从一个清晰的任务开始</h2>
+          <p>把工作拆成可验证阶段，再让适合的 Agent 接手。首版使用 Codex，后续可按阶段路由到 Claude Code。</p>
+          <button id="empty-action" class="primary-button" type="button">创建项目</button>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="project-dialog" class="modal compact-modal">
+      <form id="project-form" method="dialog">
+        <div class="modal-header">
+          <div><div class="eyebrow">NEW PROJECT</div><h2>新建项目</h2></div>
+          <button class="close-button" value="cancel" aria-label="关闭" type="submit" formnovalidate>×</button>
+        </div>
+        <div class="form-grid">
+          <label class="field field-wide"><span>项目名称</span><input name="name" required maxlength="120" placeholder="例如：示例项目" /></label>
+          <label class="field"><span>项目 ID</span><input name="id" maxlength="80" placeholder="embodied-ai" /></label>
+          <label class="field"><span>任务前缀</span><input name="issuePrefix" maxlength="8" placeholder="AI" /></label>
+          <label class="field field-wide"><span>Windows 项目绝对路径</span><input name="workspacePath" required maxlength="2048" placeholder="D:\项目\具身人工智能" /></label>
+        </div>
+        <div class="modal-actions">
+          <button value="cancel" class="secondary-button" type="submit" formnovalidate>取消</button>
+          <button class="primary-button" type="submit" value="save" id="save-project-button">创建项目</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="issue-dialog" class="modal issue-modal"><div id="issue-dialog-content"></div></dialog>
+    <dialog id="automation-dialog" class="modal compact-modal"><div id="automation-dialog-content"></div></dialog>
+    <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+    <script type="module" src="/app.js?v=0.2.0"></script>
+  </body>
+</html>
